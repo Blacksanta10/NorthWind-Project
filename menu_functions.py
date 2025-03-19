@@ -26,8 +26,46 @@ def add_customer(db):
     finally:
         cursor.close()
 
-def add_order():
-    None
+def add_order(db):
+    cursor = db.cursor()
+
+    try: 
+        #1. Customer ID and Validate
+        customer_id = input(f'Enter Customer: ')
+        cursor.execute("SELECT ID FROM Customers WHERE ID = %s", (customer_id,))
+        if not cursor.fetchone():  #Info validation
+            print(f'Error: Customer ID does not exist.')
+            return
+        
+        #2. Employee ID and validate
+        employee_id = input(f"Enter Employee ID: ")
+        cursor.execute("SELECT ID FROM Employees WHERE ID = %s", (employee_id,))
+
+        if not cursor.fetchone():  #Info validation
+            print(f'Error: Employee ID N/a')
+
+        #3. Shipper_ID and validate
+        shipper_id = input(f"Enter Shipper ID: ")
+        cursor.execute("SELECT ID FROM Shippers WHERE ID = %s", (shipper_id,))
+
+        if not cursor.fetchone():  #Info validation
+            print(f"Error: Shipper ID does not exist.")
+
+        #4. Get Shipping details 
+        ship_name = input(f"Enter Ship Name: ")
+        ship_address = input(f"Enter Ship Address: ")
+        ship_city = input(f"Enter Ship City: ")
+        ship_state = input(f"Enter Ship State: ")
+        ship_zip = input(f"Enter Ship Zip/Postal Code: ")
+        ship_country = input(f"Enter Ship Country: ")
+
+    except Exception as e:
+        db.rollback()  #transaction control 
+        print(f"Error: {e}")
+
+    finally:
+        cursor.close()
+
 
 def remove_order():
     None
