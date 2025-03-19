@@ -5,6 +5,7 @@ import menu_functions as func
 
 ##Next few steps are making and testing connect to Database.
 import mysql.connector as dbconn
+
 print ("MySql connector is installed and working")
 
 #Create connection
